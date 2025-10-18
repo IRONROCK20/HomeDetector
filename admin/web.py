@@ -219,12 +219,6 @@ class AdminRoot(Resource):
         The path requested gets sent to the relevant child's class
     """
     def getChild(self, path, request):
-        request_src_ip = request.transport.getPeer().host
-        logger.debug('Source IP -> %s ', request_src_ip)                # Source IP filtering for Security
-        if request_src_ip not in ("127.0.0.1", "172.30.32.2"):          # Localhost & Ingress Only
-            logger.error("IP Blocked by Firewall %s", request_src_ip)   # https://developers.home-assistant.io/docs/add-ons/presentation#ingress
-            return WebRootPage()
-
         path_str = path.decode('utf-8')
         logger.debug("Admin Path -> %s", path_str)
         if path_str == "data":
